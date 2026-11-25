@@ -1,0 +1,2 @@
+three.js 0.170.0 from the npm package, MIT license. Load it through the import map in index.html.
+Three.js 0.170.0 post-processing add-ons (bloom, film grain, vignette, output) copied from examples/jsm on 2026-11-13.

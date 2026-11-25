@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>The Night Land</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    { "imports": {
+        "three": "./vendor/three/three.module.js",
+        "three/addons/": "./vendor/three/addons/"
+    } }
+  </script>
+</head>
+<body>
+  <div id="vignette"></div>
+
+  <div id="hud">
+    <div id="meters">
+      <div class="row"><span class="label">Power</span><div class="bar"><div id="powerFill"></div></div></div>
+      <div class="row"><span class="label">Light</span><span id="levelName">Dim</span></div>
+      <div class="row"><span class="label">Bond</span><div class="bar"><div id="bondFill"></div></div></div>
+    </div>
+    <div id="objectiveBox"><div id="objective"></div><div id="arrow">&#9650;</div></div>
+    <div id="guide"></div>
+    <div id="callout"></div>
+    <div id="lookHint"></div>
+    <div id="prompt"></div>
+    <div id="wakeBar"><div id="wakeFill"></div></div>
+    <div id="line"></div>
+    <div id="buttons">
+      <button id="btnUp" aria-label="Brighter light">Light +</button>
+      <button id="btnDown" aria-label="Dimmer light">Light &minus;</button>
+      <button id="btnTalk" aria-label="Answer your companion">Answer</button>
+      <button id="btnWake" aria-label="Hold to wake the installation">Hold</button>
+    </div>
+    <div id="keys">WASD walk &middot; mouse look &middot; R / F light &middot; T answer &middot; hold E at the tower &middot; Esc frees the mouse</div>
+  </div>
+
+  <div id="stick"><div id="knob"></div></div>
+
+  <div id="start" class="overlay">
+    <div class="panel">
+      <h1>The Night Land</h1>
+      <p>The sun is dead. Humankind lives on in the Last Redoubt, a pyramid of light in an endless dark. You are a Night-Walker.</p>
+      <p>Far out on the plain stands an ancient installation. Reach it, wake it, and come back to the door. Something out there will notice you. You will not see it plainly. Bright light calls it. Darkness hides you, but then the way is hard to see. Answer your companion when called, and the bond will help you hold out.</p>
+      <p class="small desk-only">Move the mouse to look (Esc gives you the cursor back), W A S D to walk, R and F for light, T to answer your companion, hold E at the tower. Sound on, please.</p>
+      <p class="small touch-only">Left thumb walks, right thumb looks, and the buttons change the light and answer your companion. Sound on, please.</p>
+      <p>Choose one thing to carry:</p>
+      <label><input type="radio" name="gear" value="cell" checked> A spare power cell <span>(more light to spend)</span></label>
+      <label><input type="radio" name="gear" value="cloak"> A dark cloak <span>(you hide better when the light is low)</span></label>
+      <label><input type="radio" name="gear" value="token"> A token from your companion <span>(you begin with a stronger bond)</span></label>
+      <label class="guideChoice"><input type="checkbox" id="guideBox" checked> Show me the controls as I go</label>
+      <button id="beginBtn">Step out</button>
+    </div>
+  </div>
+
+  <div id="end" class="overlay">
+    <div class="panel">
+      <h1 id="endTitle"></h1>
+      <p id="endText"></p>
+      <p class="small" id="endStats"></p>
+      <button id="againBtn">Play again</button>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
