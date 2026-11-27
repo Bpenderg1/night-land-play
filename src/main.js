@@ -28,6 +28,7 @@ const post = createPost(renderer, world.scene, world.camera);
 
 let game = null;
 let running = false;
+let paused = false;   // while paused the game does not step: no time passes, nothing moves
 let clock = 0;
 let startedAt = 0;
 
@@ -36,12 +37,32 @@ const done = { looked: 0, walked: 0, lightChanges: 0, answered: false };
 let guide = createGuide(false, done);
 
 function lightChanged(before) { if (game.lantern.level !== before) done.lightChanges += 1; }
+const playing = () => running && !paused;
 const input = createInput({
-  light: (d) => { if (running) { const b = game.lantern.level; changeLight(game, d); lightChanged(b); } },
-  setLight: (n) => { if (running) { const b = game.lantern.level; setLight(game, n); lightChanged(b); } },
-  reply: () => { if (running && answer(game)) done.answered = true; },
-  isRunning: () => running,
+  light: (d) => { if (playing()) { const b = game.lantern.level; changeLight(game, d); lightChanged(b); } },
+  setLight: (n) => { if (playing()) { const b = game.lantern.level; setLight(game, n); lightChanged(b); } },
+  reply: () => { if (playing() && answer(game)) done.answered = true; },
+  pause: () => { if (paused) resume(); else pause(); },
+  isRunning: playing,
 });
+
+// Pause frees the mouse so the Carry on button can be clicked.
+function pause() {
+  if (!running || paused) return;
+  paused = true;
+  audio.pause();
+  if (document.exitPointerLock) document.exitPointerLock();
+  ui.showPause();
+}
+function resume() {
+  if (!paused) return;
+  paused = false;
+  audio.resume();
+  ui.hidePause();
+  input.lock();   // works from the button click or the P key press
+  startedAt = clock;   // the short grace before "Click to look around" shows
+}
+ui.onResume(resume);
 
 ui.playAgain();
 ui.showStart((gearId, guideOn) => {
@@ -98,7 +119,9 @@ renderer.setAnimationLoop((now) => {
   last = now;
   clock += dt;
 
-  if (running) {
+  if (running && paused) {
+    // Hold the scene still. Only the camera's last view is redrawn.
+  } else if (running) {
     const walking = Math.hypot(input.moveX, input.moveY) > 0.1 ? 1 : 0;
     const px = player.x, pz = player.z;
     stepPlayer(player, input, dt, grid, game.lantern.level, game.lantern.spent);

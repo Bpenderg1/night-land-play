@@ -1,7 +1,7 @@
 // Keyboard and mouse on a computer, a thumb stick and buttons on a phone.
 //   Move: W A S D or arrows      Look: mouse (click the scene first)
 //   Light: R / F, mouse wheel, or keys 0 to 3      Answer companion: T
-//   Wake the installation: hold E
+//   Wake the installation: hold E      Pause: P (or the Pause button)
 // Phone: drag on the left half to walk, drag on the right half to look.
 // On a computer the mouse is captured (pointer lock) while you play. Esc frees it.
 import { isTouch } from './device.js';
@@ -56,6 +56,7 @@ export function createInput(handlers) {
     if (e.code === 'KeyR') handlers.light(+1);
     if (e.code === 'KeyF') handlers.light(-1);
     if (e.code === 'KeyT') handlers.reply();
+    if (e.code === 'KeyP') handlers.pause();
     if (e.code >= 'Digit0' && e.code <= 'Digit3') handlers.setLight(Number(e.code.slice(5)));
     if (e.code.startsWith('Arrow') || e.code === 'Space') e.preventDefault();
   });
@@ -147,6 +148,7 @@ export function createInput(handlers) {
   bind('btnDown', () => handlers.light(-1));
   bind('btnTalk', () => handlers.reply());
   bind('btnWake', () => { wakeButton = true; }, () => { wakeButton = false; });
+  bind('btnPause', () => handlers.pause());
 
   return input;
 }

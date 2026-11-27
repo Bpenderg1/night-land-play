@@ -88,5 +88,9 @@ export function createAudio() {
     master.gain.setTargetAtTime(0, ctx.currentTime, 0.6);
   }
 
-  return { start, update, stop };
+  // Pausing silences everything at once; resuming carries on where it was.
+  function pause() { if (ctx && ctx.state === 'running') ctx.suspend(); }
+  function resume() { if (ctx && ctx.state === 'suspended') ctx.resume(); }
+
+  return { start, update, stop, pause, resume };
 }

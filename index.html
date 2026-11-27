@@ -28,13 +28,14 @@
     <div id="prompt"></div>
     <div id="wakeBar"><div id="wakeFill"></div></div>
     <div id="line"></div>
+    <button id="btnPause" aria-label="Pause">Pause</button>
     <div id="buttons">
       <button id="btnUp" aria-label="Brighter light">Light +</button>
       <button id="btnDown" aria-label="Dimmer light">Light &minus;</button>
       <button id="btnTalk" aria-label="Answer your companion">Answer</button>
       <button id="btnWake" aria-label="Hold to wake the installation">Hold</button>
     </div>
-    <div id="keys">WASD walk &middot; mouse look &middot; R / F light &middot; T answer &middot; hold E at the tower &middot; Esc frees the mouse</div>
+    <div id="keys">WASD walk &middot; mouse look &middot; R / F light &middot; T answer &middot; hold E at the tower &middot; P pause &middot; Esc frees the mouse</div>
   </div>
 
   <div id="stick"><div id="knob"></div></div>
@@ -44,14 +45,27 @@
       <h1>The Night Land</h1>
       <p>The sun is dead. Humankind lives on in the Last Redoubt, a pyramid of light in an endless dark. You are a Night-Walker.</p>
       <p>Far out on the plain stands an ancient installation. Reach it, wake it, and come back to the door. Something out there will notice you. You will not see it plainly. Bright light calls it. Darkness hides you, but then the way is hard to see. Answer your companion when called, and the bond will help you hold out.</p>
-      <p class="small desk-only">Move the mouse to look (Esc gives you the cursor back), W A S D to walk, R and F for light, T to answer your companion, hold E at the tower. Sound on, please.</p>
-      <p class="small touch-only">Left thumb walks, right thumb looks, and the buttons change the light and answer your companion. Sound on, please.</p>
+      <p class="small desk-only">Move the mouse to look (Esc gives you the cursor back), W A S D to walk, R and F for light, T to answer your companion, hold E at the tower, P to pause. Sound on, please.</p>
+      <p class="small touch-only">Left thumb walks, right thumb looks, and the buttons change the light and answer your companion. Pause is at the top right. Sound on, please.</p>
       <p>Choose one thing to carry:</p>
       <label><input type="radio" name="gear" value="cell" checked> A spare power cell <span>(more light to spend)</span></label>
       <label><input type="radio" name="gear" value="cloak"> A dark cloak <span>(you hide better when the light is low)</span></label>
       <label><input type="radio" name="gear" value="token"> A token from your companion <span>(you begin with a stronger bond)</span></label>
       <label class="guideChoice"><input type="checkbox" id="guideBox" checked> Show me the controls as I go</label>
       <button id="beginBtn">Step out</button>
+    </div>
+  </div>
+
+  <div id="pause" class="overlay">
+    <div class="panel">
+      <h1>Paused</h1>
+      <div id="pauseHeard">
+        <p class="small">Your companion said:</p>
+        <div id="pauseLines"></div>
+      </div>
+      <p class="small">The dark waits while you rest. Nothing moves and no time passes, so a call from your companion will still be there to answer.</p>
+      <p class="small desk-only">W A S D walk &middot; mouse look &middot; R / F light &middot; T answer &middot; hold E at the tower &middot; P pause</p>
+      <button id="resumeBtn">Carry on</button>
     </div>
   </div>
 

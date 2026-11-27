@@ -2,14 +2,43 @@
 const $ = (id) => document.getElementById(id);
 
 let lineTimer = 0;
+const recent = [];   // the companion's last few lines, newest last, for the pause screen
 
 export function say(text) {
+  recent.push(text);
+  if (recent.length > 3) recent.shift();
+  showLine(text);
+}
+
+function showLine(text) {
   const el = $('line');
   el.textContent = text;
   el.classList.add('show');
   clearTimeout(lineTimer);
   lineTimer = setTimeout(() => el.classList.remove('show'), 7000 + text.length * 40);
 }
+
+// Paused: the scene freezes and the companion's recent words stay up to read.
+export function showPause() {
+  const list = $('pauseLines');
+  list.replaceChildren(...recent.map((t) => {
+    const p = document.createElement('p');
+    p.textContent = t;
+    return p;
+  }));
+  $('pauseHeard').style.display = recent.length ? 'block' : 'none';
+  $('pause').style.display = 'flex';
+  $('lookHint').classList.remove('show');
+}
+
+// Back in play. A line still on screen when the game paused gets its full
+// time again, so it does not vanish the moment play resumes.
+export function hidePause() {
+  $('pause').style.display = 'none';
+  if ($('line').classList.contains('show') && recent.length) showLine(recent[recent.length - 1]);
+}
+
+export function onResume(fn) { $('resumeBtn').addEventListener('click', fn); }
 
 // The guide box starts ticked the first time, and unticked once a player has
 // been through the guide on this browser.
